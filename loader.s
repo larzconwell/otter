@@ -1,5 +1,6 @@
 global loader
 extern sum
+extern fb_write_cell
 
 MAGIC equ 0x1BADB002
 FLAGS equ 0x0
@@ -20,6 +21,12 @@ align 4
 section .text:
 loader:
     mov esp, kernel_stack + STACK_SIZE
-    push dword 2
-    push dword 1
+    push byte 2
+    push byte 1
     call sum
+    add eax, 48
+    push eax
+    push byte 0
+    call fb_write_cell
+.loop:
+    jmp .loop
