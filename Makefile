@@ -1,23 +1,28 @@
 .PHONY: run clean env_setup
 
-run: out/otter.iso
-	qemu-system-i386 -display gtk -cdrom out/otter.iso
+OBJECTS = bin/loader.o bin/kernel.o
 
-out/otter.iso: grub.cfg out/otter.elf
-	mkdir -p out/iso/boot/grub
-	cp out/otter.elf out/iso/boot
-	cp grub.cfg out/iso/boot/grub
-	grub-mkrescue -o $@ out/iso
+run: bin/otter.iso
+	qemu-system-i386 -display gtk -cdrom bin/otter.iso
 
-out/otter.elf: link.ld out/loader.o
-	ld -T link.ld -melf_i386 $(filter-out $<,$^) -o $@
+bin/otter.iso: bin/otter.elf grub.cfg
+	mkdir -p bin/iso/boot/grub
+	cp bin/otter.elf bin/iso/boot
+	cp grub.cfg bin/iso/boot/grub
+	grub-mkrescue -o $@ bin/iso
 
-out/loader.o: loader.s
-	nasm -f elf32 $^ -o $@
+bin/otter.elf: link.ld $(OBJECTS)
+	ld -T link.ld -melf_i386 $(OBJECTS) -o $@
+
+bin/%.o: %.s
+	nasm -Wall -Werror -f elf32 $< -o $@
+
+bin/%.o: %.c
+	gcc -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c $< -o $@
 
 clean:
-	rm -r out/*
+	rm -r bin/*
 
 env_setup:
 	sudo apt install -y build-essential nasm grub2-common xorriso qemu-system-i386 qemu-system-gui
-	mkdir -p out
+	mkdir -p bin
