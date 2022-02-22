@@ -18,7 +18,7 @@ bin/%.o: %.s
 	nasm -Wall -Werror -f elf32 $< -o $@
 
 bin/%.o: %.c
-	gcc -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c $< -o $@
+	gcc -std=c17 -m32 -ffreestanding -Wall -Wextra -Werror -c $< -o $@
 
 clean:
 	rm -r bin/*
