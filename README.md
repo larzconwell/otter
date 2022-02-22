@@ -1,5 +1,7 @@
 # otter
 
+Basic kernel for learning kernel development.
+
 ## Requirements
 - An `apt` based Linux system that has GTK available
 
