@@ -14,11 +14,11 @@ bin/otter.iso: bin/otter.elf grub.cfg
 bin/otter.elf: link.ld $(OBJECTS)
 	ld -T link.ld -melf_i386 $(OBJECTS) -o $@
 
-bin/%.o: %.s
+bin/%.o: src/%.s
 	nasm -Wall -Werror -f elf32 $< -o $@
 
-bin/%.o: %.c
-	gcc -std=c17 -m32 -ffreestanding -Wall -Wextra -Werror -c $< -o $@
+bin/%.o: src/%.c
+	gcc -std=c17 -m32 -ffreestanding -I include -Wall -Wextra -Werror -c $< -o $@
 
 clean:
 	rm -r bin/*
