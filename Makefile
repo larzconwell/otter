@@ -1,8 +1,10 @@
-.PHONY: run clean env_setup
+.PHONY: build run clean env_setup
 
 OBJECTS = bin/io.o bin/framebuffer.o bin/kernel.o bin/load.o
 
-run: bin/otter.iso
+build: bin/otter.iso
+
+run: build
 	qemu-system-i386 -display gtk -cdrom bin/otter.iso
 
 bin/otter.iso: bin/otter.elf grub.cfg
