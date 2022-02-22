@@ -1,4 +1,4 @@
-ENTRY(loader) /* sync with global export in loader.s */
+ENTRY(load)
 
 SECTIONS {
     . = 1M;

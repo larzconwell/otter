@@ -1,6 +1,6 @@
 .PHONY: run clean env_setup
 
-OBJECTS = bin/loader.o bin/kernel.o
+OBJECTS = bin/io.o bin/framebuffer.o bin/kernel.o bin/load.o
 
 run: bin/otter.iso
 	qemu-system-i386 -display gtk -cdrom bin/otter.iso
