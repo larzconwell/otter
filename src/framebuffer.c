@@ -28,7 +28,7 @@ void fb_move_cursor(uint16_t position) {
 void fb_write(const uint8_t *string, uint16_t len) {
     for (uint16_t i = 0; i < len; i++) {
         fb_write_cell(fbidx + i, string[i]);
-        fb_move_cursor(fbidx + i);
+        fb_move_cursor(fbidx + i + 1);
     }
 
     fbidx += len;
